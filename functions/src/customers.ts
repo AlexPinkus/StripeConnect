@@ -1,12 +1,12 @@
+import Stripe from 'stripe';
+
 import { stripe } from './config';
 import { getUser, updateUser } from './users';
-
-import Stripe = require('stripe');
 
 /**
  * Takes a Firebase user and creates a Stripe customer account
  */
-export const createCustomer = async (uid: string, email?: string): Promise<Stripe.customers.ICustomer> => {
+export const createCustomer = async (uid: string, email?: string): Promise<Stripe.Customer> => {
   const customer = await stripe.customers.create({
     email,
     metadata: {
@@ -33,11 +33,11 @@ export const deleteCustomer = async (uid: string): Promise<boolean> => {
 /**
  * Read the stripe customer ID from firestore, or create a new one if missing
  */
-export const getOrCreateCustomer = async (uid: string): Promise<Stripe.customers.ICustomer> => {
+export const getOrCreateCustomer = async (uid: string): Promise<Stripe.Customer> => {
   const user = await getUser(uid);
   const customerId = user && user.stripeCustomerId;
   if (!customerId) {
     return createCustomer(uid, user.email);
   }
-  return stripe.customers.retrieve(customerId);
+  return stripe.customers.retrieve(customerId) as Promise<Stripe.Customer>;
 };
