@@ -1,15 +1,17 @@
+export { stripeRegisterAccount } from './accounts';
 export { cleanupUser, stripeCreateCustomer } from './authFunctions';
-export { webhook } from './webhook';
+export { stripeCreateAccountIntent, stripeRefundAccountIntent } from './directCharge';
 export {
-  stripeCreateIntent,
   stripeCancelIntent,
+  stripeChargeUser,
+  stripeCreateIntent,
   stripeRefundIntent,
   stripeSetupIntent,
-  stripeChargeUser,
 } from './intents';
 export {
+  stripeDeletePaymentMethod,
   stripeGetPaymentMethods,
   stripeSavePaymentMethod,
   stripeSetDefaultPaymentMethod,
-  stripeDeletePaymentMethod,
 } from './paymentMethods';
+export { webhook } from './webhook';
